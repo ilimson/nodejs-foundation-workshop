@@ -1,4 +1,4 @@
-# nodejs-dev-foundation-project
+# nodejs-foundation-project
 
 ## Module 1
 
