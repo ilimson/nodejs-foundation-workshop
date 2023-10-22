@@ -2,10 +2,15 @@ const cron = require("node-cron");
 const logger = require("../config/winston.config");
 const { SensorData } = require("../models");
 
-const sensorsCron = () => {
+const sensorsCron = (io) => {
   logger.info("Generating simulated sensor data...");
+
+  // console.log({
+  //   io: io.socket
+  // })
+  
   // This cron job is set to run every 10 seconds.
-  cron.schedule("*/10 * * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     try {
       // Create new sensor data
       const newSensorData = new SensorData({

@@ -1,7 +1,7 @@
 const sensorsCron = require("./sensors.cron");
 
-const initializeCronJobs = () => {
-  sensorsCron();
+const initializeCronJobs = (io) => {
+  sensorsCron(io);
 };
 
 module.exports = initializeCronJobs;

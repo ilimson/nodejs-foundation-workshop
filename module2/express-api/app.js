@@ -1,8 +1,11 @@
 require("dotenv").config();
-const express = require("express");
+const app = require("express")();
+const httpServer = require("http").createServer(app);
+
 const initializeDatabase = require("./config/database.config");
 const initializeRoutes = require("./routes");
 const initializeCronJobs = require("./cronjob");
+const initializeWebSockets = require("./events");
 const {
   expressCommonMiddleware,
   errorHandlerMiddleware,
@@ -10,8 +13,6 @@ const {
   swaggerDocsMiddleware,
   loggerMiddleware,
 } = require("./middleware");
-
-const app = express();
 
 /**
  * initialize database connection
@@ -35,15 +36,22 @@ app.all("/", (req, res) => res.send("express-api is running!"));
 app.get("/healthcheck", (req, res) => res.send("express-api is running!"));
 
 /**
+ * intialize web sockets
+ *
+ * @references
+ *  https://socket.io/docs/v3/server-initialization/
+ */
+const io = initializeWebSockets(httpServer);
+
+/**
  * Initialize app routes
  */
-const routes = initializeRoutes();
-app.use("/api", routes);
+app.use("/api", initializeRoutes());
 
 /**
  * Initialize cronjobs
  */
-initializeCronJobs();
+initializeCronJobs(io);
 
 /**
  * implement error handling
@@ -51,9 +59,10 @@ initializeCronJobs();
 app.use(errorHandlerMiddleware());
 
 /**
- * serve app
+ * serve express app
  */
 const PORT = 3000;
-app.listen(PORT, () => {
+
+httpServer.listen(PORT, () => {
   console.log(`Server running in production mode on port ${PORT}`);
 });

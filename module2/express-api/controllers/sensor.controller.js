@@ -3,6 +3,12 @@ const { SensorData } = require("../models");
 
 module.exports.getAllSensorData = async (req, res, next) => {
   try {
+    // console.log({
+    //   socket: req.socket,
+    // });
+
+    // req.socket.emit("sensor:getAll", { data: "hello world!" });
+
     const sensorData = await SensorData.find();
 
     const message = `Successfully fetched sensor data.`;

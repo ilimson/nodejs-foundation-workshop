@@ -1,6 +1,6 @@
 const Router = require("express").Router({ mergeParams: true });
-const { requestValidationMiddleware, Joi } = require("./../middleware");
-const { sensorController } = require("./../controllers");
+const { requestValidationMiddleware, Joi } = require("../middleware");
+const { sensorController } = require("../controllers");
 
 Router.route("/").get(sensorController.getAllSensorData);
 
