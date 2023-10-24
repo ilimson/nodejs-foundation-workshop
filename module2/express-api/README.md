@@ -35,14 +35,14 @@ Ensure you set these environment variables according to your development or prod
 - **Summary:** Get all sensor data
 - **Description:** Retrieves all sensor data.
 
-### GET /sensor/{sensorId}
+### GET /sensors/{sensorId}
 
 - **Summary:** Get Sensor Data by ID
 - **Description:** Retrieve sensor data by providing a sensorId.
 - **Parameters:**
   - `sensorId` (path, required): The ID of the sensor data to retrieve (must be a valid MongoDB ObjectId).
 
-### POST /sensor
+### POST /sensors
 
 - **Summary:** Create Sensor Data
 - **Description:** Create sensor data by providing input for its fields.
@@ -53,7 +53,7 @@ Ensure you set these environment variables according to your development or prod
   - `airQuality` (string, enum: "Good", "Moderate", "Poor"): The air quality data.
   - `location` (array of numbers): The location data.
 
-### PUT /sensor/{sensorId}
+### PUT /sensors/{sensorId}
 
 - **Summary:** Update Sensor Data
 - **Description:** Update sensor data by providing input for its fields.
@@ -66,7 +66,7 @@ Ensure you set these environment variables according to your development or prod
   - `airQuality` (string, enum: "Good", "Moderate", "Poor"): The updated air quality data.
   - `location` (array of numbers): The updated location data.
 
-### DELETE /sensor/{sensorId}
+### DELETE /sensors/{sensorId}
 
 - **Summary:** Delete Sensor Data
 - **Description:** Delete sensor data by providing the sensorId.
@@ -82,7 +82,7 @@ import socketIoClient from "socket.io-client";
 
 const endpoint = "<your-api-endpoint>";
 
-const socket = socketIoClient(ENDPOINT);
+const socket = socketIoClient(endpoint);
 socket.on("sensor:cron", ({ data }) => {
   console.log(data);
 });
