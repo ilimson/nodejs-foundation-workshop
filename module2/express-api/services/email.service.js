@@ -2,14 +2,13 @@ const logger = require("../config/winston.config");
 const sendGrid = require("@sendgrid/mail");
 sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
-module.exports.sendEmail = async ({ to, subject, text, html }) => {
+module.exports.sendEmail = async ({ to, subject, text }) => {
   try {
     const result = await sendGrid.send({
-      from: "ilimson@stratpoint.com",
+      from: process.env.SENDGRID_EMAIL_SENDER,
       to,
       subject,
       text,
-      html,
     });
 
     console.log(result);

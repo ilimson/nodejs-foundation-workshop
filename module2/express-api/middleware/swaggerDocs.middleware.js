@@ -4,7 +4,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 module.exports = (opts = {}) => {
   const title = opts.title || "";
   const basePath = opts.basePath || "";
-  const apis = opts.apis || ["./app/app.route.js"];
+  const apis = opts.apis || ["./routes/inde.js"];
 
   if (!title) {
     throw new Error("title is required");
@@ -18,13 +18,6 @@ module.exports = (opts = {}) => {
       },
       produces: ["application/json"],
       consumes: ["application/json"],
-      securityDefinitions: {
-        Authorization: {
-          type: "apiKey",
-          name: "Authorization",
-          in: "header",
-        },
-      },
       basePath: basePath,
     },
     apis,

@@ -1,7 +1,7 @@
 const Router = require("express").Router({ mergeParams: true });
 
-const initializeRoutes = () => {
-  Router.use("/sensors", require("./sensors.routes"));
+const initializeRoutes = (io) => {
+  Router.use("/sensors", require("./sensor.route"));
 
   return Router;
 };

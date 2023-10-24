@@ -5,11 +5,10 @@ const httpServer = require("http").createServer(app);
 const initializeDatabase = require("./config/database.config");
 const initializeRoutes = require("./routes");
 const initializeCronJobs = require("./cronjob");
-const initializeWebSockets = require("./events");
+const initializeWebSockets = require("./config/socket.config");
 const {
   expressCommonMiddleware,
   errorHandlerMiddleware,
-  jwtDecoderMiddleware,
   swaggerDocsMiddleware,
   loggerMiddleware,
 } = require("./middleware");
@@ -41,17 +40,25 @@ app.get("/healthcheck", (req, res) => res.send("express-api is running!"));
  * @references
  *  https://socket.io/docs/v3/server-initialization/
  */
-const io = initializeWebSockets(httpServer);
+const socket = initializeWebSockets(httpServer);
 
 /**
  * Initialize app routes
  */
 app.use("/api", initializeRoutes());
+app.use(
+  "/api/docs",
+  swaggerDocsMiddleware({
+    title: "Express API",
+    basePath: "/api",
+    apis: ["./routes/sensor.route.js"],
+  })
+);
 
 /**
  * Initialize cronjobs
  */
-initializeCronJobs(io);
+initializeCronJobs(socket);
 
 /**
  * implement error handling
@@ -61,8 +68,10 @@ app.use(errorHandlerMiddleware());
 /**
  * serve express app
  */
-const PORT = 3000;
+const PORT = process.env.APP_PORT || 8000;
 
 httpServer.listen(PORT, () => {
-  console.log(`Server running in production mode on port ${PORT}`);
+  console.log(
+    `Server running in ${process.env.ENVIRONMENT} mode on port ${PORT}`
+  );
 });

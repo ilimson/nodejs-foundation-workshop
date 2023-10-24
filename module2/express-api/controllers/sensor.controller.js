@@ -4,12 +4,6 @@ const { emailService } = require("../services");
 
 module.exports.getAllSensorData = async (req, res, next) => {
   try {
-    // console.log({
-    //   socket: req.socket,
-    // });
-
-    // req.socket.emit("sensor:getAll", { data: "hello world!" });
-
     const sensorData = await SensorData.find();
 
     const message = `Successfully fetched sensor data.`;
@@ -76,7 +70,6 @@ module.exports.createSensorData = async (req, res, next) => {
       to: "iv4n.d3v@gmail.com",
       subject: "Express-API Sensor Data Creation",
       text: "and easy to do anywhere, even with Node.js",
-      html: "<strong>and easy to do anywhere, even with Node.js</strong>",
     });
 
     const message = `Successfully created sensor data.`;
@@ -87,6 +80,67 @@ module.exports.createSensorData = async (req, res, next) => {
       data: createdSensorData,
     });
   } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.updateSensorData = async (req, res, next) => {
+  try {
+    const { sensorId } = req.params;
+    const updateData = req.body;
+
+    const updatedSensorData = await SensorData.findByIdAndUpdate(
+      sensorId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedSensorData) {
+      const message = `Sensor data not found.`;
+      logger.info(message);
+
+      res.status(404).json({
+        message,
+      });
+    } else {
+      const message = `Successfully updated sensor data.`;
+      logger.info(message);
+
+      res.status(200).json({
+        message,
+        data: updatedSensorData,
+      });
+    }
+  } catch (err) {
+    logger.error(`[SensorController.updateSensorData]`, err);
+    next(err);
+  }
+};
+
+module.exports.deleteSensorData = async (req, res, next) => {
+  try {
+    const { sensorId } = req.params;
+
+    const deletedSensorData = await SensorData.findByIdAndRemove(sensorId);
+
+    if (!deletedSensorData) {
+      const message = `Sensor data not found.`;
+      logger.info(message);
+
+      res.status(404).json({
+        message,
+      });
+    } else {
+      const message = `Successfully deleted sensor data.`;
+      logger.info(message);
+
+      res.status(200).json({
+        message,
+        data: deletedSensorData,
+      });
+    }
+  } catch (err) {
+    logger.error(`[SensorController.deleteSensorData]`, err);
     next(err);
   }
 };

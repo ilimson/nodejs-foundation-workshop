@@ -16,11 +16,6 @@ const initializeWebSockets = (app) => {
   const onConnection = (socket) => {
     console.log("A user connected");
 
-    /**
-     * import and register socket event handlers here
-     */
-    require("./sensors.eventHandler")(io, socket);
-
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });
