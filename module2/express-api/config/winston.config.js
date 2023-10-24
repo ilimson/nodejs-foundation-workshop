@@ -20,12 +20,6 @@ const transportDefinitions = {
   },
 };
 
-// timezone function winston calls to get timezone
-// const timezoned = () =>
-//   new Date().toLocaleString("en-US", {
-//     timeZone: TIMEZONE,
-//   });
-
 // logger object with above defined options
 const logger = createLogger({
   transports: [
@@ -43,11 +37,5 @@ const logger = createLogger({
   ),
   exitOnError: false,
 });
-
-// logger.stream = {
-//   write(message) {
-//     logger.info(message);
-//   },
-// };
 
 module.exports = logger;

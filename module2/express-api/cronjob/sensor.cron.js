@@ -8,7 +8,7 @@ const sensorCron = (socket) => {
 
   const temperatureThreshold = 40; // Set your temperature threshold here (e.g., 40°C)
 
-  // This cron job is set to run every 10 seconds.
+  // This cron job is set to run every 10mins.
   cron.schedule("*/10 * * * *", async () => {
     try {
       const temperature = randomTemperature(80);

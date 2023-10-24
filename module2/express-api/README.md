@@ -72,3 +72,18 @@ Ensure you set these environment variables according to your development or prod
 - **Description:** Delete sensor data by providing the sensorId.
 - **Parameters:**
   - `sensorId` (path, required): The ID of the sensor data to delete.
+
+## SocketIo Event
+
+The front-end application should listen to the `sensor:cron` event via socketIo client. This event can be used to periodically retrieve sensor data from the server. Here's an example of how to listen to the `sensor:cron` event and handle it on the front-end:
+
+```javascript
+import socketIoClient from "socket.io-client";
+
+const endpoint = "<your-api-endpoint>";
+
+const socket = socketIoClient(ENDPOINT);
+socket.on("sensor:cron", ({ data }) => {
+  console.log(data);
+});
+```
