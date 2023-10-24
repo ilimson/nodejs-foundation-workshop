@@ -1,5 +1,6 @@
 const logger = require("../config/winston.config");
 const { SensorData } = require("../models");
+const { emailService } = require("../services");
 
 module.exports.getAllSensorData = async (req, res, next) => {
   try {
@@ -70,6 +71,13 @@ module.exports.createSensorData = async (req, res, next) => {
     });
 
     const createdSensorData = await newSensorData.save();
+
+    emailService.sendEmail({
+      to: "iv4n.d3v@gmail.com",
+      subject: "Express-API Sensor Data Creation",
+      text: "and easy to do anywhere, even with Node.js",
+      html: "<strong>and easy to do anywhere, even with Node.js</strong>",
+    });
 
     const message = `Successfully created sensor data.`;
     logger.info(message);
